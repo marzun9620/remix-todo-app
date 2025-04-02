@@ -71,5 +71,5 @@ For deploying to a production environment, make sure to:
 - Use a process manager like PM2 or a hosting provider that supports Node.js
 
 ## License
-This project is licensed under [Your License Here].
+This project is licensed under MIT
 
