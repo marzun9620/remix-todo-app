@@ -8,7 +8,8 @@ tasks:
 
   db:reset:
     cmds:
-      - export $(cat .env | xargs) && atlas migrate reset --force --url $DATABASE_URL
+      - export $(cat .env | xargs) && atlas schema clean --url $DATABASE_URL
+      - export $(cat .env | xargs) && atlas migrate reset $DATABASE_URL
     description: "Reset database with Atlas migrations"
 
   db:push:

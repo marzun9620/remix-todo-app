@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,8 +11,24 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
+  id        String   @id @default(cuid())
   name      String
-  email     String  @unique
+  email     String   @unique
+  role      String   @default("USER")
+  tasks     Task[]
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  status      String   @default("TODO")
+  priority    String   @default("MEDIUM")
+  dueDate     DateTime?
+  assignedTo  User?    @relation(fields: [assignedToId], references: [id])
+  assignedToId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

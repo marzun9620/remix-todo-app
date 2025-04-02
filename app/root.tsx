@@ -1,28 +1,19 @@
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-
-import "./tailwind.css";
+import styles from "./tailwind.css";
 
 export const links: LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
+  { rel: "stylesheet", href: styles },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export default function App() {
   return (
     <html lang="en">
       <head>
@@ -31,15 +22,29 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {children}
+      <body className="min-h-screen bg-background">
+        <nav className="bg-primary text-primary-foreground p-4">
+          <div className="container mx-auto flex justify-between items-center">
+            <a href="/" className="text-xl font-bold">
+              Task Manager
+            </a>
+            <div className="space-x-4">
+              <a href="/tasks" className="hover:underline">
+                Tasks
+              </a>
+              <a href="/tasks/new" className="hover:underline">
+                New Task
+              </a>
+            </div>
+          </div>
+        </nav>
+        <main className="container mx-auto py-8">
+          <Outlet />
+        </main>
         <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }
