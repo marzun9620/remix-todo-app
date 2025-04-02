@@ -1,0 +1,22 @@
+version: "3"
+
+tasks:
+  db:migrate:
+    cmds:
+      - export $(cat .env | xargs) && atlas migrate apply --dir file://migrations --url $DATABASE_URL
+    description: "Run Atlas migrations"
+
+  db:reset:
+    cmds:
+      - export $(cat .env | xargs) && atlas migrate reset --force --url $DATABASE_URL
+    description: "Reset database with Atlas migrations"
+
+  db:push:
+    cmds:
+      - export $(cat .env | xargs) && npx prisma db push
+    description: "Push Prisma schema to the database"
+
+  start:
+    cmds:
+      - npm run dev
+    description: "Start Remix app"
