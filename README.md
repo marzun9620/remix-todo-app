@@ -1,40 +1,75 @@
-# Welcome to Remix!
+# Remix Task Management App
 
-- 📖 [Remix docs](https://remix.run/docs)
+## Overview
+This is a task management application built with Remix, Prisma, and PostgreSQL. It allows users to create, manage, and track tasks efficiently.
 
-## Development
+## Features
+- User-based task management
+- Task creation with priority and due date
+- Database migrations with Atlas
+- ORM operations with Prisma
+- Uses Remix for server-side rendering and routing
 
-Run the dev server:
+## Prerequisites
+Ensure you have the following installed:
+- Node.js (latest LTS recommended)
+- pnpm (as the package manager)
+- Docker (for database setup, if needed)
+- Atlas (for database migrations)
 
-```shellscript
-npm run dev
+## Installation
+1. Clone the repository:
+   ```sh
+   git clone <repo-url>
+   cd <project-folder>
+   ```
+
+2. Install dependencies:
+   ```sh
+   pnpm install
+   ```
+
+3. Set up the environment variables:
+   - Create a `.env` file in the root directory and define `DATABASE_URL`.
+
+4. Run database migrations:
+   ```sh
+   pnpm task db:migrate
+   ```
+
+5. Start the application:
+   ```sh
+   pnpm task start
+   ```
+
+## Database Management
+The project uses Atlas for migrations and Prisma for ORM.
+
+- **Run Migrations**:
+  ```sh
+  pnpm task db:migrate
+  ```
+- **Reset Database**:
+  ```sh
+  pnpm task db:reset
+  ```
+- **Push Prisma Schema**:
+  ```sh
+  pnpm task db:push
+  ```
+
+## Running in Development Mode
+To start the Remix app in development mode:
+```sh
+pnpm task start
 ```
 
 ## Deployment
+For deploying to a production environment, make sure to:
+- Use a PostgreSQL database
+- Run `pnpm task db:migrate` to apply migrations
+- Use a process manager like PM2 or a hosting provider that supports Node.js
 
-First, build your app for production:
+## License
+This project is licensed under [Your License Here].
 
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
