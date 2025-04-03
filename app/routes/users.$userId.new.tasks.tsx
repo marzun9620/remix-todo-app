@@ -101,7 +101,7 @@ export default function NewTask() {
 
             <div>
               <Label htmlFor="priority">Priority</Label>
-              <select id="priority" name="priority" defaultValue="MEDIUM" disabled={isSubmitting} className="w-full p-2 border rounded-lg shadow-sm">
+              <select id="priority" name="priority" defaultValue="MEDIUM" disabled={isSubmitting} className="bg-gray-200 w-full p-2 border rounded-lg shadow-sm">
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
                 <option value="HIGH">High</option>

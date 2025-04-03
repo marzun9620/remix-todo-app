@@ -1,43 +1,24 @@
 "use client"
 
-import { Link, useLocation } from "@remix-run/react"
+import { Link } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
-import { Users, ListTodo } from "lucide-react"
+import { Users } from "lucide-react"
 
 export default function Navbar() {
-  const location = useLocation()
-
-  const navItems = [
-    {
-      name: "Tasks",
-      href: "/tasks",
-      icon: <ListTodo className="mr-2 h-4 w-4" />,
-    },
-    {
-      name: "Users",
-      href: "/users",
-      icon: <Users className="mr-2 h-4 w-4" />,
-    },
-  ]
-
   return (
-    <header className="border-b">
+    <header className="border-b bg-blue-900 text-white">
       <div className="container mx-auto flex h-16 items-center px-4">
         <Link to="/" className="font-bold text-xl">
           Task Manager
         </Link>
-        <nav className="ml-auto flex gap-2">
-          {navItems.map((item) => (
-            <Button key={item.href} variant={location.pathname.startsWith(item.href) ? "default" : "ghost"} asChild>
-              <Link to={item.href} className="flex items-center">
-                {item.icon}
-                {item.name}
-              </Link>
+        <div className="ml-auto flex items-center space-x-4">
+          <Link to="/">
+            <Button variant="outline" size="sm" className="text-black border-white hover:bg-gray-800">
+              Back
             </Button>
-          ))}
-        </nav>
+          </Link>
+        </div>
       </div>
     </header>
   )
 }
-

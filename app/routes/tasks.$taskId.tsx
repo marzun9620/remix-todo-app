@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import { Form, useLoaderData, useParams } from "@remix-run/react";
+import { Form, useLoaderData, useParams, useActionData } from "@remix-run/react";
 import { TaskForm } from "~/components/task-form";
 import { prisma } from "~/lib/prisma.server";
 
@@ -38,7 +38,7 @@ export async function action({ request, params }: { request: Request; params: { 
     },
   });
 
-  return redirect("/tasks");
+  return redirect(`/tasks/${params.taskId}`);
 }
 
 export default function TaskDetail() {
@@ -51,4 +51,4 @@ export default function TaskDetail() {
       <TaskForm task={task} error={actionData?.error} />
     </div>
   );
-} 
+}

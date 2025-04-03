@@ -1,22 +1,57 @@
 version: "3"
 
 tasks:
-  db:migrate:
+  atlas:
+    internal: true
     cmds:
-      - export $(cat .env | xargs) && atlas migrate apply --dir file://migrations --url $DATABASE_URL
-    description: "Run Atlas migrations"
+      - atlas {{.CLI_ARGS}}
 
-  db:reset:
+  shell:psql:
+    desc: Run psql command
     cmds:
-      - export $(cat .env | xargs) && atlas schema clean --url $DATABASE_URL
-      - export $(cat .env | xargs) && atlas migrate reset $DATABASE_URL
-    description: "Reset database with Atlas migrations"
+      - PGPASSWORD={{.POSTGRES_PASSWORD}} psql -h {{.POSTGRES_HOSTNAME}} -p {{.POSTGRES_PORT}} -U {{.POSTGRES_USER}} -d {{.POSTGRES_DB}} {{.CLI_ARGS}}
+    vars:
+      POSTGRES_PASSWORD: '{{default "root" .POSTGRES_PASSWORD}}'
+      POSTGRES_HOSTNAME: '{{default "localhost" .POSTGRES_HOSTNAME}}'
+      POSTGRES_PORT: '{{default "25432" .POSTGRES_PORT}}'
+      POSTGRES_USER: '{{default "root" .POSTGRES_USER}}'
+      POSTGRES_DB: '{{default "kachi" .POSTGRES_DB}}'
 
-  db:push:
+  schema:apply:
+    desc: Apply schema to the database
     cmds:
-      - export $(cat .env | xargs) && npx prisma db push
-    description: "Push Prisma schema to the database"
+      - task: shell:psql
+        vars:
+          CLI_ARGS: "-f ./prisma/schema.sql"
 
+  schema:clean:
+    desc: Clean the schema
+    cmds:
+      - task: atlas
+        vars:
+          CLI_ARGS: "schema clean --url 'postgres://root:root@localhost:25432/kachi?sslmode=disable'"
+
+  psql:seed:
+    desc: Seed the database
+    cmds:
+      - task: shell:psql
+        vars:
+          CLI_ARGS: "-f ./prisma/seed.sql"
+          
+  prisma:pull:
+    desc: Pull schema from database
+    cmds:
+      - task: prisma
+        vars:
+          CLI_ARGS: "db pull"
+
+  prisma:generate:
+    desc: Generate Prisma client
+    cmds:
+      - task: prisma
+        vars:
+          CLI_ARGS: "generate"
+          
   start:
     cmds:
       - npm run dev

@@ -9,7 +9,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
   }
 
   try {
-    // Get all tasks assigned to this user
+    
     const tasks = await prisma.task.findMany({
       where: {
         assignedToId: userId,
@@ -19,7 +19,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       },
     })
 
-    // Check if any tasks are in progress or to do
+    
     const pendingTasks = tasks.filter(
       task => task.status === "IN_PROGRESS" || task.status === "TO_DO"
     )
